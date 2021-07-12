@@ -3,5 +3,5 @@ org.springframework.core.convert.converter.ConverterFactory=\
     com.wmeimob.fastboot.plus.converter.BaseEnumConverterFactory
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    com.wmeimob.fastboot.plus.config.WmeimobPlusConfig,\
+    com.wmeimob.fastboot.plus.config.WmeimobPlusConfigurer,\
   com.wmeimob.fastboot.plus.config.WmeimobPlusFactoryProcessor

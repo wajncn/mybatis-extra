@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class WmeimobPlusConfig implements InitializingBean, WebMvcConfigurer {
+public class WmeimobPlusConfigurer implements InitializingBean, WebMvcConfigurer {
 
     private final SqlSessionFactory sqlSessionFactory;
 

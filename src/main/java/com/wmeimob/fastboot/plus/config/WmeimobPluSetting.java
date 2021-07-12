@@ -3,6 +3,8 @@ package com.wmeimob.fastboot.plus.config;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 逻辑删除配置
+ *
  * @author wajncn
  */
 @Slf4j

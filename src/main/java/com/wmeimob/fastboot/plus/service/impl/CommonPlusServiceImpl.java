@@ -1,14 +1,14 @@
 package com.wmeimob.fastboot.plus.service.impl;
 
-import com.wmeimob.fastboot.plus.core.BaseEntity;
-import com.wmeimob.fastboot.plus.core.Mapper;
 import com.wmeimob.fastboot.plus.service.CommonPlusService;
-import com.wmeimob.fastboot.plus.util.ReflectionKit;
-import com.wmeimob.fastboot.plus.util.SqlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.GenericTypeResolver;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ClassUtils;
+import com.wmeimob.fastboot.plus.core.BaseEntity;
+import com.wmeimob.fastboot.plus.core.Mapper;
 
 import java.util.List;
 
@@ -58,15 +58,17 @@ public class CommonPlusServiceImpl<M extends Mapper<T>, T extends BaseEntity> im
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean saveBatch(List<T> entitys) {
-        return SqlHelper.retBool(this.getBaseMapper().insertList(entitys));
+        return this.retBool(this.getBaseMapper().insertList(entitys));
     }
 
 
     protected Class<M> currentMapperClass() {
-        return (Class<M>) ReflectionKit.getSuperClassGenericType(this.getClass(), CommonPlusServiceImpl.class, 0);
+        Class<?>[] typeArguments = GenericTypeResolver.resolveTypeArguments(ClassUtils.getUserClass(this.getClass()), CommonPlusServiceImpl.class);
+        return null == typeArguments ? null : (Class<M>) typeArguments[0];
     }
 
     protected Class<T> currentModelClass() {
-        return (Class<T>) ReflectionKit.getSuperClassGenericType(this.getClass(), CommonPlusServiceImpl.class, 1);
+        Class<?>[] typeArguments = GenericTypeResolver.resolveTypeArguments(ClassUtils.getUserClass(this.getClass()), CommonPlusServiceImpl.class);
+        return null == typeArguments ? null : (Class<T>) typeArguments[1];
     }
 }

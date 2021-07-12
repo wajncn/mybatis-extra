@@ -1,13 +1,12 @@
 package com.wmeimob.fastboot.plus.service;
 
 import cn.hutool.core.util.ReflectUtil;
-import com.wmeimob.fastboot.plus.config.WmeimobPluSetting;
-import com.wmeimob.fastboot.plus.core.BaseEntity;
-import com.wmeimob.fastboot.plus.core.Mapper;
-import com.wmeimob.fastboot.plus.util.SqlHelper;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import tk.mybatis.mapper.entity.Example;
+import com.wmeimob.fastboot.plus.config.WmeimobPluSetting;
+import com.wmeimob.fastboot.plus.core.BaseEntity;
+import com.wmeimob.fastboot.plus.core.Mapper;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -20,6 +19,26 @@ import java.util.List;
  **/
 public interface CommonPlusService<T extends BaseEntity> {
 
+    /**
+     * 判断数据库操作是否成功
+     *
+     * @param result 数据库操作返回影响条数
+     * @return boolean
+     */
+    default boolean retBool(Integer result) {
+        return null != result && result >= 1;
+    }
+
+
+    /**
+     * 返回SelectCount执行结果
+     *
+     * @param result ignore
+     * @return int
+     */
+    default Long retCount(Integer result) {
+        return (null == result) ? 0L : result;
+    }
 
     /**
      * 获取对应 entity 的 BaseMapper
@@ -67,7 +86,7 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @return entity 实体对象
      */
     default boolean save(@NonNull T entity) {
-        return SqlHelper.retBool(getBaseMapper().insertSelective(entity));
+        return this.retBool(getBaseMapper().insertSelective(entity));
     }
 
 
@@ -77,7 +96,7 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @param id 主键ID
      */
     default boolean removeById(@NonNull Serializable id) {
-        return SqlHelper.retBool(getBaseMapper().deleteByPrimaryKey(id));
+        return this.retBool(getBaseMapper().deleteByPrimaryKey(id));
     }
 
 
@@ -87,7 +106,7 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @param entity 实体对象
      */
     default boolean updateById(T entity) {
-        return SqlHelper.retBool(getBaseMapper().updateByPrimaryKeySelective(entity));
+        return this.retBool(getBaseMapper().updateByPrimaryKeySelective(entity));
     }
 
 

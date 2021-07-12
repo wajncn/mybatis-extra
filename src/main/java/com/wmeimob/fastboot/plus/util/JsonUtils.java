@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.SneakyThrows;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -50,7 +52,15 @@ public class JsonUtils {
         // Create object mapper
         ObjectMapper mapper = new ObjectMapper();
         // Configure
+        // 转换为格式化的json
+//        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        // 如果json中有新增的字段并且是实体类类中不存在的，不报错
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        // 下面配置解决LocalDateTime序列化的问题
+        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        JavaTimeModule javaTimeModule = new JavaTimeModule();
+        mapper.registerModule(javaTimeModule);
         // Set property naming strategy
         if (strategy != null) {
             mapper.setPropertyNamingStrategy(strategy);
@@ -170,7 +180,7 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    public static Map<String, ?> objectToMap(@NonNull Object source) throws IOException {
+    public static Map<String, Object> objectToMap(@NonNull Object source) throws IOException {
         return objectToMap(source, DEFAULT_JSON_MAPPER);
     }
 
@@ -183,7 +193,7 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    public static Map<String, ?> objectToMap(@NonNull Object source, @NonNull ObjectMapper objectMapper) throws IOException {
+    public static Map<String, Object> objectToMap(@NonNull Object source, @NonNull ObjectMapper objectMapper) throws IOException {
 
         // Serialize the source object
         String json = objectToJson(source, objectMapper);

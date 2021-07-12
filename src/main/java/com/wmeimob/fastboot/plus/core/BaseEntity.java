@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  * @author wajncn
@@ -16,11 +16,11 @@ import java.util.Date;
 public class BaseEntity implements Serializable {
 
     @Id
-    protected Long id;
+    protected Serializable id;
 
     @Column(name = "gmt_create")
-    protected Date gmtCreate;
+    protected LocalDateTime gmtCreate;
 
     @Column(name = "gmt_modified")
-    protected Date gmtModified;
+    protected LocalDateTime gmtModified;
 }
