@@ -145,13 +145,27 @@ public class ReflectUtil {
             if (null == allFields || declaredFields.length == 0) {
                 allFields = declaredFields;
             } else {
-                //FIXME bug
-                System.arraycopy(declaredFields, 0, allFields, allFields.length, declaredFields.length);
+                allFields = append(allFields, declaredFields);
             }
             searchType = withSuperClassFields ? searchType.getSuperclass() : null;
         }
-
         return allFields;
+    }
+
+    /**
+     * 数组扩容
+     *
+     * @param src
+     * @param dest
+     * @return
+     */
+    private static Field[] append(Field[] src, Field[] dest) {
+        int srcSize = src.length;
+        int destSize = dest.length;
+        Field[] tmp = new Field[srcSize + destSize];
+        System.arraycopy(src, 0, tmp, 0, srcSize);
+        System.arraycopy(dest, 0, tmp, srcSize, destSize);
+        return tmp;
     }
 
     /**
