@@ -180,7 +180,7 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    public static Map<String, Object> objectToMap(@NonNull Object source) throws IOException {
+    public static Map<String, ?> objectToMap(@NonNull Object source) throws IOException {
         return objectToMap(source, DEFAULT_JSON_MAPPER);
     }
 
@@ -193,7 +193,7 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    public static Map<String, Object> objectToMap(@NonNull Object source, @NonNull ObjectMapper objectMapper) throws IOException {
+    public static Map<String, ?> objectToMap(@NonNull Object source, @NonNull ObjectMapper objectMapper) throws IOException {
 
         // Serialize the source object
         String json = objectToJson(source, objectMapper);

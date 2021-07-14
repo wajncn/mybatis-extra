@@ -19,7 +19,7 @@ import java.util.List;
  * 数据库格式: ["123","4444"]
  *
  * @description
- * @author: 王进
+ * @author: wajncn
  **/
 @MappedJdbcTypes(JdbcType.ARRAY)
 @MappedTypes(List.class)

@@ -10,9 +10,12 @@
     </parent>
     <groupId>com.wmeimob.fastboot</groupId>
     <artifactId>wmeimob-plus-starter</artifactId>
-    <version>2.1.RELEASE</version>
+    <version>1.2.5.RELEASE</version>
     <name>wmeimob-plus</name>
-    <description>提供了对枚举的个性化支持</description>
+    <description>
+        提供了通用枚举,DTO转换Entity的支持
+        通用枚举实现BaseEnum接口. DTO转换Entity实现InputConverter接口.
+    </description>
 
 
     <developers>
@@ -23,7 +26,9 @@
         </developer>
         <developer>
             <name>snowxuyu</name>
-            <email>snowxuyu@gmail.com</email>
+        </developer>
+        <developer>
+            <name>liaoxuebing</name>
         </developer>
     </developers>
 
@@ -32,58 +37,18 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>provided</scope>
         </dependency>
-
-
-        <dependency>
-            <groupId>com.wmeimob.fastboot</groupId>
-            <artifactId>wmeimob-fastboot-core</artifactId>
-            <version>2.5.3</version>
-            <scope>provided</scope>
-        </dependency>
-
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-spring</artifactId>
-            <version>2.0.6</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -99,6 +64,21 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+            <version>2.1.5</version>
+            <scope>provided</scope>
+        </dependency>
+
+
+<!--        <dependency>-->
+<!--            <groupId>cn.hutool</groupId>-->
+<!--            <artifactId>hutool-core</artifactId>-->
+<!--            <version>5.7.4</version>-->
+<!--        </dependency>-->
+
+
         <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -107,18 +87,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>rdc-releases</id>
-            <url>http://172.18.58.137/mvn-release/</url>
-        </repository>
-        <repository>
-            <id>rdc-snapshots</id>
-            <url>http://172.18.58.137/mvn-snapshot/</url>
-        </repository>
-    </repositories>
-
 
     <distributionManagement>
         <repository>
@@ -136,6 +104,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
             </plugin>
         </plugins>
     </build>

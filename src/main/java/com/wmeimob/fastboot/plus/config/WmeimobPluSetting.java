@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WmeimobPluSetting {
 
+    static String idName = "id";
     static String logicDeleteKey = "del";
 
     static void setLogicDeleteKey(String logicDeleteKey) {

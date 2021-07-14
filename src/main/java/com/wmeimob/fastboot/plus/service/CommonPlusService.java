@@ -1,12 +1,12 @@
 package com.wmeimob.fastboot.plus.service;
 
-import cn.hutool.core.util.ReflectUtil;
+import com.wmeimob.fastboot.plus.config.WmeimobPluSetting;
+import com.wmeimob.fastboot.plus.core.BaseEntity;
+import com.wmeimob.fastboot.plus.core.CommonPlusMapper;
+import com.wmeimob.fastboot.plus.util.ReflectUtil;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import tk.mybatis.mapper.entity.Example;
-import com.wmeimob.fastboot.plus.config.WmeimobPluSetting;
-import com.wmeimob.fastboot.plus.core.BaseEntity;
-import com.wmeimob.fastboot.plus.core.Mapper;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
@@ -41,11 +41,11 @@ public interface CommonPlusService<T extends BaseEntity> {
     }
 
     /**
-     * 获取对应 entity 的 BaseMapper
+     * 获取对应 entity 的 CommonPlusMapper
      *
-     * @return BaseMapper
+     * @return CommonPlusMapper
      */
-    Mapper<T> getBaseMapper();
+    CommonPlusMapper<T> getBaseMapper();
 
 
     /**
@@ -93,7 +93,8 @@ public interface CommonPlusService<T extends BaseEntity> {
     /**
      * 根据 ID 删除
      *
-     * @param id 主键ID
+     * @param id
+     * @return
      */
     default boolean removeById(@NonNull Serializable id) {
         return this.retBool(getBaseMapper().deleteByPrimaryKey(id));
@@ -126,7 +127,7 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @param id id
      * @return entity
      */
-    default T getById(@NonNull Long id) {
+    default T getById(@NonNull Serializable id) {
         Example example = this.getExample();
         example.createCriteria().andEqualTo("id", id);
         return this.getBaseMapper().selectOneByExample(example);
@@ -149,21 +150,33 @@ public interface CommonPlusService<T extends BaseEntity> {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-            } else if (Long.class.isAssignableFrom(field.getType())) {
+            }
+            if (Number.class.isAssignableFrom(field.getType())) {
                 try {
-                    field.setLong(entity, 0L);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } else if (Integer.class.isAssignableFrom(field.getType())) {
-                try {
-                    field.setLong(entity, 0);
+                    field.setInt(entity, 0);
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
         return this.getBaseMapper().selectOne(entity);
+    }
+
+
+    /**
+     * 查询一条记录
+     *
+     * @param example 实体对象example
+     * @return entity
+     */
+    default T getOne(@NonNull Example example) {
+        //加入逻辑删除
+        if (ReflectUtil.getField(this.getEntityClass(), WmeimobPluSetting.getLogicDeleteKey()) != null) {
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo(WmeimobPluSetting.getLogicDeleteKey(), 0);
+            example.and(criteria);
+        }
+        return this.getBaseMapper().selectOneByExample(example);
     }
 
 
@@ -196,7 +209,7 @@ public interface CommonPlusService<T extends BaseEntity> {
      */
     default List<T> listByExample(@Nullable Example example) {
         Class<T> entityClass = this.getEntityClass();
-        Mapper<T> mapper = this.getBaseMapper();
+        CommonPlusMapper<T> commonPlusMapper = this.getBaseMapper();
         if (example == null) {
             example = new Example(entityClass);
         }
@@ -207,7 +220,7 @@ public interface CommonPlusService<T extends BaseEntity> {
             criteria.andEqualTo(WmeimobPluSetting.getLogicDeleteKey(), 0);
             example.and(criteria);
         }
-        return mapper.selectByExample(example);
+        return commonPlusMapper.selectByExample(example);
     }
 
 

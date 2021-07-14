@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 /**
  * DTO的转换器接口。
  *
- * @author wajn
+ * @author wajncn
  */
 @SuppressWarnings("unchecked")
 interface BaseConverter extends Serializable {

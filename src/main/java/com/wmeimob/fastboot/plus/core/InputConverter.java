@@ -13,7 +13,7 @@ import java.util.List;
  * 转换器接口。 T 为实体对象<entity>
  * 主要用于将前端参数转换为实体对象
  *
- * @author wajn
+ * @author wajncn
  */
 @SuppressWarnings("unchecked")
 public interface InputConverter<T, Entity> extends BaseConverter {

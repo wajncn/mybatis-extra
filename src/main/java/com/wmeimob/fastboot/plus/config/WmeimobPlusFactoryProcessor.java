@@ -1,5 +1,6 @@
 package com.wmeimob.fastboot.plus.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -10,10 +11,11 @@ import java.util.Optional;
 
 
 /**
- * tk mapper处理通用枚举
+ * 针对wmeimob fastboot项目处理通用枚举
  *
  * @author wajncn
  */
+@Slf4j
 public class WmeimobPlusFactoryProcessor implements BeanFactoryPostProcessor {
 
     private static final String HANDLER_PACKAGE = "com.wmeimob.fastboot.plus.handler";
@@ -27,15 +29,17 @@ public class WmeimobPlusFactoryProcessor implements BeanFactoryPostProcessor {
             Object myBatisProperties = null;
             try {
                 myBatisProperties = beanFactory.getBean("myBatisProperties");
-            } catch (BeansException e) {
+            } catch (BeansException ignored) {
 
             }
             if (myBatisProperties == null) {
                 myBatisProperties = beanFactory.getBean("mybatis-tk.mybatis.mapper.autoconfigure.MybatisProperties");
             }
-            final String consumerTypeHandlersPackage = typeHandlersPackage == null ? HANDLER_PACKAGE : typeHandlersPackage.concat(",").concat(HANDLER_PACKAGE);
+            final String consumerTypeHandlersPackage = typeHandlersPackage == null ? HANDLER_PACKAGE
+                    : typeHandlersPackage.concat(",").concat(HANDLER_PACKAGE);
             myBatisProperties.getClass().getMethod("setTypeHandlersPackage", String.class).invoke(myBatisProperties, consumerTypeHandlersPackage);
-            WmeimobPlusConfigurer.typeHandlerComplete = true;
+            WmeimobPlusConfigurer.registerHandler = true;
+            log.warn("Register Handler [ListTypeHandler,MybatisEnumTypeHandler] Complete.");
         } catch (BeansException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
         }
     }

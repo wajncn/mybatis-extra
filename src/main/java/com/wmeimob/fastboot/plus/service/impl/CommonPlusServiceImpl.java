@@ -1,14 +1,13 @@
 package com.wmeimob.fastboot.plus.service.impl;
 
+import com.wmeimob.fastboot.plus.core.BaseEntity;
+import com.wmeimob.fastboot.plus.core.CommonPlusMapper;
 import com.wmeimob.fastboot.plus.service.CommonPlusService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
-import com.wmeimob.fastboot.plus.core.BaseEntity;
-import com.wmeimob.fastboot.plus.core.Mapper;
 
 import java.util.List;
 
@@ -18,9 +17,8 @@ import java.util.List;
  * @author: 王进
  **/
 @SuppressWarnings("unchecked")
-public class CommonPlusServiceImpl<M extends Mapper<T>, T extends BaseEntity> implements CommonPlusService<T> {
-
-    protected Logger log = LoggerFactory.getLogger(getClass());
+@Slf4j
+public class CommonPlusServiceImpl<M extends CommonPlusMapper<T>, T extends BaseEntity> implements CommonPlusService<T> {
 
     @Autowired
     protected M baseMapper;
@@ -30,9 +28,9 @@ public class CommonPlusServiceImpl<M extends Mapper<T>, T extends BaseEntity> im
 
 
     /**
-     * 获取对应 entity 的 BaseMapper
+     * 获取对应 entity 的 CommonPlusMapper
      *
-     * @return BaseMapper
+     * @return CommonPlusMapper
      */
     @Override
     public M getBaseMapper() {

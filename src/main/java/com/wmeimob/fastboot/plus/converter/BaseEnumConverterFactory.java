@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 通用枚举转换器 可以接受枚举的字符串或者{@link BaseEnum#getValue()}的实现
  *
- * @author: wajn
+ * @author: wajncn
  **/
 @SuppressWarnings("unchecked")
 public class BaseEnumConverterFactory implements ConverterFactory<String, BaseEnum<?>> {

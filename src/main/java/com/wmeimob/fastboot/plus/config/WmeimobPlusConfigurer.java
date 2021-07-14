@@ -30,33 +30,28 @@ import java.util.Map;
 public class WmeimobPlusConfigurer implements InitializingBean, WebMvcConfigurer {
 
     private final SqlSessionFactory sqlSessionFactory;
-
     /**
-     * 是否已经处理过枚举
+     * 是否已经处理过handler
      */
-    static volatile boolean typeHandlerComplete = false;
-
-    private static final String TYPE_HANDLER_MAP = "TYPE_HANDLER_MAP";
-
+    static volatile boolean registerHandler = false;
 
     @Override
     @SuppressWarnings("unchecked")
     public void afterPropertiesSet() {
-        if (typeHandlerComplete) {
-            log.info("wmeimob plus==> handler register[ListTypeHandler,MybatisEnumTypeHandler] complete.");
+        if (registerHandler) {
             return;
         }
         try {
             final TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactory.getConfiguration().getTypeHandlerRegistry();
-            final Field jdbcTypeHandlerMap = TypeHandlerRegistry.class.getDeclaredField(TYPE_HANDLER_MAP);
+            final Field jdbcTypeHandlerMap = TypeHandlerRegistry.class.getDeclaredField("TYPE_HANDLER_MAP");
             jdbcTypeHandlerMap.setAccessible(true);
             final Map<Type, Map<JdbcType, TypeHandler<?>>> typeHandlerMap = (Map<Type, Map<JdbcType, TypeHandler<?>>>) jdbcTypeHandlerMap.get(typeHandlerRegistry);
             typeHandlerMap.keySet().stream().map(Class.class::cast).filter(clzType -> clzType != null && clzType.isEnum() && BaseEnum.class.isAssignableFrom(clzType))
                     .forEach(clzType -> typeHandlerRegistry.register(clzType, MybatisEnumTypeHandler.class));
             typeHandlerRegistry.register(List.class, ListTypeHandler.class);
-            log.info("wmeimob plus==> handler register[ListTypeHandler,MybatisEnumTypeHandler] complete.");
+            log.warn("Register Handler [ListTypeHandler(Configuration CommonPlusMapper XML),MybatisEnumTypeHandler] Complete.");
         } catch (Exception ignored) {
-            log.error("wmeimob plus==> handler register fail.");
+            log.error("Register Handler Fail.");
         }
     }
 
