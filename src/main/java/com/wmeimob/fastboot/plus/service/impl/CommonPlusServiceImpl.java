@@ -6,6 +6,7 @@ import com.wmeimob.fastboot.plus.service.CommonPlusService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.GenericTypeResolver;
+import org.springframework.lang.Nullable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ClassUtils;
 
@@ -55,8 +56,27 @@ public class CommonPlusServiceImpl<M extends CommonPlusMapper<T>, T extends Base
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean saveBatch(List<T> entitys) {
+    public boolean save(@Nullable List<T> entitys) {
+        if (entitys == null || entitys.isEmpty()) {
+            return false;
+        }
         return this.retBool(this.getBaseMapper().insertList(entitys));
+    }
+
+    /**
+     * 批量插入数据
+     *
+     * @param entitys
+     * @return entitys
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateById(@Nullable List<T> entitys) {
+        if (entitys == null || entitys.isEmpty()) {
+            return false;
+        }
+        entitys.forEach(this::updateById);
+        return true;
     }
 
 

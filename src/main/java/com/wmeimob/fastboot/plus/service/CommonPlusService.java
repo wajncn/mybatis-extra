@@ -63,7 +63,7 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @param entitys
      * @return entitys
      */
-    boolean saveBatch(@NonNull List<T> entitys);
+    boolean save(@Nullable List<T> entitys);
 
     /**
      * 如果属性有id则修改.否则新增
@@ -111,6 +111,14 @@ public interface CommonPlusService<T extends BaseEntity> {
         return this.retBool(getBaseMapper().updateByPrimaryKeySelective(entity));
     }
 
+
+    /**
+     * 批量插入数据
+     *
+     * @param entitys
+     * @return entitys
+     */
+    boolean updateById(@NonNull List<T> entitys);
 
     /**
      * list
