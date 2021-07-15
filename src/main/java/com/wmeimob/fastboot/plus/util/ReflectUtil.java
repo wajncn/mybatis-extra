@@ -1,6 +1,6 @@
 package com.wmeimob.fastboot.plus.util;
 
-import com.wmeimob.fastboot.plus.core.SimpleCache;
+import com.wmeimob.fastboot.plus.lang.SimpleCache;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.AccessibleObject;

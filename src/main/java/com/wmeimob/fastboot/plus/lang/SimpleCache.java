@@ -1,4 +1,4 @@
-package com.wmeimob.fastboot.plus.core;
+package com.wmeimob.fastboot.plus.lang;
 
 import java.io.Serializable;
 import java.util.Iterator;
