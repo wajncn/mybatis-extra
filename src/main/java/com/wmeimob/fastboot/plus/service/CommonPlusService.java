@@ -4,6 +4,7 @@ import com.wmeimob.fastboot.plus.config.WmeimobPluSetting;
 import com.wmeimob.fastboot.plus.core.BaseEntity;
 import com.wmeimob.fastboot.plus.core.CommonPlusMapper;
 import com.wmeimob.fastboot.plus.util.ReflectUtil;
+import lombok.SneakyThrows;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import tk.mybatis.mapper.entity.Example;
@@ -36,8 +37,8 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @param result ignore
      * @return int
      */
-    default Long retCount(Integer result) {
-        return (null == result) ? 0L : result;
+    default int retCount(Integer result) {
+        return (null == result) ? 0 : result;
     }
 
     /**
@@ -122,6 +123,56 @@ public interface CommonPlusService<T extends BaseEntity> {
 
 
     /**
+     * 查询总记录数
+     */
+    default int count() {
+        return this.retCount(this.getBaseMapper().selectCount(null));
+    }
+
+
+    /**
+     * @return entity
+     * 查询总记录数
+     */
+    @SneakyThrows
+    default int count(@Nullable T entity) {
+        if (entity == null) {
+            entity = this.getEntityClass().newInstance();
+        }
+        Field field = ReflectUtil.getField(entity.getClass(), WmeimobPluSetting.getLogicDeleteKey());
+        if (field != null) {
+            field.setAccessible(true);
+            if (Boolean.class.isAssignableFrom(field.getType())) {
+                field.setBoolean(entity, false);
+            }
+            if (Number.class.isAssignableFrom(field.getType())) {
+                field.setInt(entity, 0);
+            }
+        }
+        return this.retCount(this.getBaseMapper().selectCount(entity));
+    }
+
+
+    /**
+     * @return example
+     * 查询总记录数
+     */
+    default int count(@Nullable Example example) {
+        if (example == null) {
+            example = getExample();
+        } else {
+            //加入逻辑删除
+            if (ReflectUtil.getField(getEntityClass(), WmeimobPluSetting.getLogicDeleteKey()) != null) {
+                Example.Criteria criteria = example.createCriteria();
+                criteria.andEqualTo(WmeimobPluSetting.getLogicDeleteKey(), 0);
+                example.and(criteria);
+            }
+        }
+        return this.retCount(this.getBaseMapper().selectCountByExample(example));
+    }
+
+
+    /**
      * 通过ID查询
      *
      * @param id id
@@ -140,23 +191,16 @@ public interface CommonPlusService<T extends BaseEntity> {
      * @param entity 实体对象
      * @return entity
      */
+    @SneakyThrows
     default T getOne(@NonNull T entity) {
         Field field = ReflectUtil.getField(entity.getClass(), WmeimobPluSetting.getLogicDeleteKey());
         if (field != null) {
             field.setAccessible(true);
             if (Boolean.class.isAssignableFrom(field.getType())) {
-                try {
-                    field.setBoolean(entity, false);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+                field.setBoolean(entity, false);
             }
             if (Number.class.isAssignableFrom(field.getType())) {
-                try {
-                    field.setInt(entity, 0);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+                field.setInt(entity, 0);
             }
         }
         return this.getBaseMapper().selectOne(entity);
