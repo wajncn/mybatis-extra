@@ -1,4 +1,4 @@
-package com.wmeimob.fastboot.plus.core;
+package tk.mybatis.plus.core;
 
 import lombok.Builder;
 import lombok.Getter;

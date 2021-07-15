@@ -1,4 +1,4 @@
-package com.wmeimob.fastboot.plus.core;
+package tk.mybatis.plus.core;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapperImpl;

@@ -1,6 +1,6 @@
-package com.wmeimob.fastboot.plus.converter;
+package tk.mybatis.plus.converter;
 
-import com.wmeimob.fastboot.plus.enums.BaseEnum;
+import tk.mybatis.plus.core.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 

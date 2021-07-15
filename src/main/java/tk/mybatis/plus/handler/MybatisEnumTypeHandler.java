@@ -1,6 +1,6 @@
-package com.wmeimob.fastboot.plus.handler;
+package tk.mybatis.plus.handler;
 
-import com.wmeimob.fastboot.plus.enums.BaseEnum;
+import tk.mybatis.plus.core.BaseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

@@ -8,10 +8,11 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.wmeimob.fastboot</groupId>
-    <artifactId>wmeimob-plus-starter</artifactId>
-    <version>1.2.5.RELEASE</version>
+    <groupId>tk.mybatis</groupId>
+    <artifactId>mapper-plus-starter</artifactId>
+    <version>1.0.0.RELEASE</version>
     <name>wmeimob-plus</name>
+
     <description>
         提供了通用枚举,DTO转换Entity的支持
         通用枚举实现BaseEnum接口. DTO转换Entity实现InputConverter接口.
@@ -23,12 +24,6 @@
             <name>wajncn</name>
             <email>wajncn@gmail.com</email>
             <url>https://javanet123.com</url>
-        </developer>
-        <developer>
-            <name>snowxuyu</name>
-        </developer>
-        <developer>
-            <name>liaoxuebing</name>
         </developer>
     </developers>
 

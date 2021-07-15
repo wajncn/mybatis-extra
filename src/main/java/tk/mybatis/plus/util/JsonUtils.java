@@ -1,4 +1,4 @@
-package com.wmeimob.fastboot.plus.util;
+package tk.mybatis.plus.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

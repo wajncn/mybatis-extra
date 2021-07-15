@@ -1,9 +1,5 @@
-package com.wmeimob.fastboot.plus.config;
+package tk.mybatis.plus.config;
 
-import com.wmeimob.fastboot.plus.converter.BaseEnumConverterFactory;
-import com.wmeimob.fastboot.plus.enums.BaseEnum;
-import com.wmeimob.fastboot.plus.handler.ListTypeHandler;
-import com.wmeimob.fastboot.plus.handler.MybatisEnumTypeHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,6 +9,10 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import tk.mybatis.plus.converter.BaseEnumConverterFactory;
+import tk.mybatis.plus.core.BaseEnum;
+import tk.mybatis.plus.handler.ListTypeHandler;
+import tk.mybatis.plus.handler.MybatisEnumTypeHandler;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -59,6 +59,6 @@ public class WmeimobPlusConfigurer implements InitializingBean, WebMvcConfigurer
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverterFactory(new BaseEnumConverterFactory());
-        log.info("wmeimob plus==> registry addConverterFactory BaseEnumConverterFactory complete.");
+        log.info("Add ConverterFactory BaseEnumConverterFactory complete.");
     }
 }

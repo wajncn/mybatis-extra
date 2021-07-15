@@ -1,4 +1,4 @@
-package com.wmeimob.fastboot.plus.config;
+package tk.mybatis.plus.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @Slf4j
 public class WmeimobPlusFactoryProcessor implements BeanFactoryPostProcessor {
 
-    private static final String HANDLER_PACKAGE = "com.wmeimob.fastboot.plus.handler";
+    private static final String HANDLER_PACKAGE = "tk.mybatis.plus.handler";
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

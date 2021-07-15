@@ -1,4 +1,4 @@
-package com.wmeimob.fastboot.plus.enums;
+package tk.mybatis.plus.core;
 
 import java.io.Serializable;
 

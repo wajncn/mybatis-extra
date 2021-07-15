@@ -1,6 +1,6 @@
-package com.wmeimob.fastboot.plus.handler;
+package tk.mybatis.plus.handler;
 
-import com.wmeimob.fastboot.plus.util.JsonUtils;
+import tk.mybatis.plus.util.JsonUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
