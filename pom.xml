@@ -11,7 +11,7 @@
     <groupId>tk.mybatis</groupId>
     <artifactId>mapper-plus-starter</artifactId>
     <version>1.0.0.RELEASE</version>
-    <name>wmeimob-plus</name>
+    <name>tkmapper-plus</name>
 
     <description>
         提供了通用枚举,DTO转换Entity的支持
