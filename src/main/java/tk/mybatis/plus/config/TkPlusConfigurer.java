@@ -27,7 +27,7 @@ import java.util.Map;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class WmeimobPlusConfigurer implements InitializingBean, WebMvcConfigurer {
+public class TkPlusConfigurer implements InitializingBean, WebMvcConfigurer {
 
     private final SqlSessionFactory sqlSessionFactory;
     /**
@@ -42,11 +42,14 @@ public class WmeimobPlusConfigurer implements InitializingBean, WebMvcConfigurer
             return;
         }
         try {
-            final TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactory.getConfiguration().getTypeHandlerRegistry();
+            //双重注册。 防止TkPlusFactoryProcessor注册失败
+            final TypeHandlerRegistry typeHandlerRegistry = sqlSessionFactory.getConfiguration()
+                    .getTypeHandlerRegistry();
             final Field jdbcTypeHandlerMap = TypeHandlerRegistry.class.getDeclaredField("TYPE_HANDLER_MAP");
             jdbcTypeHandlerMap.setAccessible(true);
             final Map<Type, Map<JdbcType, TypeHandler<?>>> typeHandlerMap = (Map<Type, Map<JdbcType, TypeHandler<?>>>) jdbcTypeHandlerMap.get(typeHandlerRegistry);
-            typeHandlerMap.keySet().stream().map(Class.class::cast).filter(clzType -> clzType != null && clzType.isEnum() && BaseEnum.class.isAssignableFrom(clzType))
+            typeHandlerMap.keySet().stream().map(Class.class::cast)
+                    .filter(clzType -> clzType != null && clzType.isEnum() && BaseEnum.class.isAssignableFrom(clzType))
                     .forEach(clzType -> typeHandlerRegistry.register(clzType, MybatisEnumTypeHandler.class));
             typeHandlerRegistry.register(List.class, ListTypeHandler.class);
             log.warn("Register Handler [ListTypeHandler(Configuration CommonPlusMapper XML),MybatisEnumTypeHandler] Complete.");

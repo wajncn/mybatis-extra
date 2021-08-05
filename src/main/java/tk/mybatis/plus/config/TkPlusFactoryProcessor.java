@@ -11,12 +11,12 @@ import java.util.Optional;
 
 
 /**
- * 针对wmeimob fastboot项目处理通用枚举
+ * 注册处理通用枚举和List Handler
  *
  * @author wajncn
  */
 @Slf4j
-public class WmeimobPlusFactoryProcessor implements BeanFactoryPostProcessor {
+public class TkPlusFactoryProcessor implements BeanFactoryPostProcessor {
 
     private static final String HANDLER_PACKAGE = "tk.mybatis.plus.handler";
 
@@ -24,7 +24,8 @@ public class WmeimobPlusFactoryProcessor implements BeanFactoryPostProcessor {
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         try {
             //配置文件中的属性
-            final String typeHandlersPackage = Optional.ofNullable(beanFactory.getBean(Environment.class).getProperty("mybatis.typeHandlersPackage"))
+            final String typeHandlersPackage = Optional.ofNullable(beanFactory.getBean(Environment.class)
+                            .getProperty("mybatis.typeHandlersPackage"))
                     .orElse(beanFactory.getBean(Environment.class).getProperty("mybatis.type-handlers-package"));
             Object myBatisProperties = null;
             try {
@@ -37,8 +38,9 @@ public class WmeimobPlusFactoryProcessor implements BeanFactoryPostProcessor {
             }
             final String consumerTypeHandlersPackage = typeHandlersPackage == null ? HANDLER_PACKAGE
                     : typeHandlersPackage.concat(",").concat(HANDLER_PACKAGE);
-            myBatisProperties.getClass().getMethod("setTypeHandlersPackage", String.class).invoke(myBatisProperties, consumerTypeHandlersPackage);
-            WmeimobPlusConfigurer.registerHandler = true;
+            myBatisProperties.getClass().getMethod("setTypeHandlersPackage", String.class)
+                    .invoke(myBatisProperties, consumerTypeHandlersPackage);
+            TkPlusConfigurer.registerHandler = true;
             log.warn("Register Handler [ListTypeHandler,MybatisEnumTypeHandler] Complete.");
         } catch (BeansException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
         }

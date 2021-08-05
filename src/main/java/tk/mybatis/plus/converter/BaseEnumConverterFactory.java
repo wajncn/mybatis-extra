@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author: wajncn
  **/
-@SuppressWarnings("unchecked")
+@SuppressWarnings("all")
 public class BaseEnumConverterFactory implements ConverterFactory<String, BaseEnum<?>> {
 
     /**

@@ -78,7 +78,8 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    public static <T> T jsonToObject(@NonNull String json, @NonNull Class<T> type) throws IOException {
+    @SneakyThrows
+    public static <T> T jsonToObject(@NonNull String json, @NonNull Class<T> type) {
         return jsonToObject(json, type, DEFAULT_JSON_MAPPER);
     }
 
@@ -86,7 +87,8 @@ public class JsonUtils {
     @NonNull
     @SneakyThrows
     public static <T> List<T> jsonToList(@NonNull String json, @NonNull Class<T> type) {
-        return JsonUtils.DEFAULT_JSON_MAPPER.readValue(json, JsonUtils.DEFAULT_JSON_MAPPER.getTypeFactory().constructParametricType(ArrayList.class, type));
+        return JsonUtils.DEFAULT_JSON_MAPPER.readValue(json, JsonUtils.DEFAULT_JSON_MAPPER.getTypeFactory()
+                .constructParametricType(ArrayList.class, type));
     }
 
     /**
@@ -100,7 +102,8 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    public static <T> T jsonToObject(@NonNull String json, @NonNull Class<T> type, @NonNull ObjectMapper objectMapper) throws IOException {
+    @SneakyThrows
+    public static <T> T jsonToObject(@NonNull String json, @NonNull Class<T> type, @NonNull ObjectMapper objectMapper) {
         Assert.hasText(json, "Json content must not be blank");
         Assert.notNull(type, "Target type must not be null");
         Assert.notNull(objectMapper, "Object mapper must not null");
