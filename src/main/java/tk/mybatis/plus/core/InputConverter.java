@@ -90,9 +90,7 @@ public interface InputConverter<T, Entity> extends BaseConverter {
                 InputConverter t = this.getClass().newInstance();
                 copyProperties(a, t);
                 list.add((T) t);
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         });

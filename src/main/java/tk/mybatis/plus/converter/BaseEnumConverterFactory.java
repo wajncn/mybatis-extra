@@ -1,8 +1,8 @@
 package tk.mybatis.plus.converter;
 
-import tk.mybatis.plus.core.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
+import tk.mybatis.plus.core.BaseEnum;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 通用枚举转换器 可以接受枚举的字符串或者{@link BaseEnum#getValue()}的实现
  *
- * @author: wajncn
+ * @author wajncn
  **/
 @SuppressWarnings("all")
 public class BaseEnumConverterFactory implements ConverterFactory<String, BaseEnum<?>> {

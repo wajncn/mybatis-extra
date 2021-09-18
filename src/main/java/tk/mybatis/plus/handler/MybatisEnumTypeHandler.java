@@ -1,10 +1,10 @@
 package tk.mybatis.plus.handler;
 
-import tk.mybatis.plus.core.BaseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
+import tk.mybatis.plus.core.BaseEnum;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -23,7 +23,7 @@ import java.util.Objects;
  * @author wajncn
  */
 @Slf4j
-@MappedTypes(value = {BaseEnum.class})
+@MappedTypes(BaseEnum.class)
 public class MybatisEnumTypeHandler<E extends Enum<?>> extends BaseTypeHandler<Enum<?>> {
 
     private final Class<E> type;

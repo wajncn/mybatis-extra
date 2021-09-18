@@ -18,9 +18,7 @@ import java.util.regex.Pattern;
  * 如果没有设置错误消息,则提示程序解析的默认消息.
  * 否则提示DUPLICATE_KEY_MESSAGE
  *
- * @program: guanghui-mini
- * @description
- * @author: 王进
+ * @author 王进
  **/
 @Slf4j
 public final class DuplicateKeyExceptionFactory {

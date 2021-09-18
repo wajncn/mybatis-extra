@@ -5,13 +5,13 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.core.env.Environment;
+import org.springframework.lang.NonNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 
 /**
- * 注册处理通用枚举和List Handler
+ * 注册处理Handler
  *
  * @author wajncn
  */
@@ -27,24 +27,38 @@ public class TkPlusFactoryProcessor implements BeanFactoryPostProcessor {
             final String typeHandlersPackage = Optional.ofNullable(beanFactory.getBean(Environment.class)
                             .getProperty("mybatis.typeHandlersPackage"))
                     .orElse(beanFactory.getBean(Environment.class).getProperty("mybatis.type-handlers-package"));
-            Object myBatisProperties = null;
-            try {
-                myBatisProperties = beanFactory.getBean("myBatisProperties");
-            } catch (BeansException ignored) {
-
+            Object myBatisProperties = this.getBean(beanFactory, "myBatisProperties");
+            if (myBatisProperties == null) {
+                myBatisProperties = this.getBean(beanFactory, "mybatis-tk.mybatis.mapper.autoconfigure.MybatisProperties");
             }
             if (myBatisProperties == null) {
-                myBatisProperties = beanFactory.getBean("mybatis-tk.mybatis.mapper.autoconfigure.MybatisProperties");
+                myBatisProperties = this.getBean(beanFactory, "mybatis-org.mybatis.spring.boot.autoconfigure.MybatisProperties");
+            }
+            if (myBatisProperties == null) {
+                //通过第二种方法注册Handler
+                log.warn("Start using TkPlusConfigurer Register Handler");
+                return;
             }
             final String consumerTypeHandlersPackage = typeHandlersPackage == null ? HANDLER_PACKAGE
                     : typeHandlersPackage.concat(",").concat(HANDLER_PACKAGE);
+            // 这种方式注册Handler比较好. 可以做到不需要处理xml的type_handler啦
             myBatisProperties.getClass().getMethod("setTypeHandlersPackage", String.class)
                     .invoke(myBatisProperties, consumerTypeHandlersPackage);
             TkPlusConfigurer.registerHandler = true;
             log.warn("Register Handler [ListTypeHandler,MybatisEnumTypeHandler] Complete.");
-        } catch (BeansException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+        } catch (Exception ignored) {
+            // 默认方式注册失败. 通过第二种方法注册Handler
+            log.warn("Register Handler error, Start using TkPlusConfigurer Register Handler");
         }
     }
 
+
+    private Object getBean(@NonNull ConfigurableListableBeanFactory beanFactory, @NonNull String beanName) {
+        try {
+            return beanFactory.getBean(beanName);
+        } catch (Exception ignored) {
+            return null;
+        }
+    }
 
 }

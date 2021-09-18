@@ -13,11 +13,13 @@ import tk.mybatis.plus.converter.BaseEnumConverterFactory;
 import tk.mybatis.plus.core.BaseEnum;
 import tk.mybatis.plus.handler.ListTypeHandler;
 import tk.mybatis.plus.handler.MybatisEnumTypeHandler;
+import tk.mybatis.plus.handler.OptionalTypeHandler;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * 处理通用枚举
@@ -52,7 +54,9 @@ public class TkPlusConfigurer implements InitializingBean, WebMvcConfigurer {
                     .filter(clzType -> clzType != null && clzType.isEnum() && BaseEnum.class.isAssignableFrom(clzType))
                     .forEach(clzType -> typeHandlerRegistry.register(clzType, MybatisEnumTypeHandler.class));
             typeHandlerRegistry.register(List.class, ListTypeHandler.class);
-            log.warn("Register Handler [ListTypeHandler(Configuration CommonPlusMapper XML),MybatisEnumTypeHandler] Complete.");
+            typeHandlerRegistry.register(Optional.class, OptionalTypeHandler.class);
+            //这种方式注册TypeHandler成功后 如果使用了xml. 只需要配置xml的ListTypeHandler. 其他handler暂时不用配置
+            log.info("Register Handler [ListTypeHandler(Need Configuration XML),MybatisEnumTypeHandler,OptionalTypeHandler] Complete.");
         } catch (Exception ignored) {
             log.error("Register Handler Fail.");
         }
