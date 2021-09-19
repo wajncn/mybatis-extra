@@ -1,4 +1,4 @@
-package com.github.wajncn.ext.mybatis.handler;
+package com.github.wajncn.extra.mybatis.handler;
 
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;

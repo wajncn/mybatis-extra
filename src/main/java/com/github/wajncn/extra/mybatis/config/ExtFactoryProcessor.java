@@ -1,4 +1,4 @@
-package com.github.wajncn.ext.mybatis.config;
+package com.github.wajncn.extra.mybatis.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class ExtFactoryProcessor implements BeanFactoryPostProcessor {
 
     private static final Logger log = LoggerFactory.getLogger(ExtFactoryProcessor.class);
 
-    private static final String HANDLER_PACKAGE = "com.github.wajncn.ext.mybatis.handler";
+    private static final String HANDLER_PACKAGE = "com.github.wajncn.extra.mybatis.handler";
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {

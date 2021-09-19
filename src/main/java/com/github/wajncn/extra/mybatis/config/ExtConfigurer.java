@@ -1,10 +1,10 @@
-package com.github.wajncn.ext.mybatis.config;
+package com.github.wajncn.extra.mybatis.config;
 
-import com.github.wajncn.ext.mybatis.converter.BaseEnumConverterFactory;
-import com.github.wajncn.ext.mybatis.core.BaseEnum;
-import com.github.wajncn.ext.mybatis.handler.ListTypeHandler;
-import com.github.wajncn.ext.mybatis.handler.MybatisEnumTypeHandler;
-import com.github.wajncn.ext.mybatis.handler.OptionalTypeHandler;
+import com.github.wajncn.extra.mybatis.converter.BaseEnumConverterFactory;
+import com.github.wajncn.extra.mybatis.core.BaseEnum;
+import com.github.wajncn.extra.mybatis.handler.ListTypeHandler;
+import com.github.wajncn.extra.mybatis.handler.MybatisEnumTypeHandler;
+import com.github.wajncn.extra.mybatis.handler.OptionalTypeHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;

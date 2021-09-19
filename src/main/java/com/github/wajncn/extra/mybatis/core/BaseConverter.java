@@ -1,4 +1,4 @@
-package com.github.wajncn.ext.mybatis.core;
+package com.github.wajncn.extra.mybatis.core;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapperImpl;

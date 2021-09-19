@@ -1,6 +1,6 @@
-package com.github.wajncn.ext.mybatis.converter;
+package com.github.wajncn.extra.mybatis.converter;
 
-import com.github.wajncn.ext.mybatis.core.BaseEnum;
+import com.github.wajncn.extra.mybatis.core.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
 

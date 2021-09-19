@@ -1,4 +1,4 @@
-package com.github.wajncn.ext.mybatis.util;
+package com.github.wajncn.extra.mybatis.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

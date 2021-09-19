@@ -11,7 +11,7 @@
     <groupId>com.github.wajncn</groupId>
     <artifactId>mybatis-ext</artifactId>
     <version>1.0.0.RELEASE</version>
-    <name>mybatis-ext</name>
+    <name>mybatis-extra</name>
 
     <description>
         提供了通用枚举,DTO转换Entity的支持,对实体对象get方法为Optional进行了支持
