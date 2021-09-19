@@ -100,4 +100,34 @@ public class Userinfo {
 ```
 
 > 可以支持实体对象的get方法为optional. 详细参考:OptionalTypeHandler处理器   
-> 也可以支持自定义枚举类(通用枚举). 实现BaseEnum接口即可. 详细参考:MybatisEnumTypeHandler处理器   
+> 也可以支持自定义枚举类(通用枚举). 实现BaseEnum接口即可. 详细参考:MybatisEnumTypeHandler处理器
+
+## get方法的template
+
+```textmate
+#if($field.modifierStatic)
+static ##
+#end
+#if ($field.primitive)
+$field.type ##
+#else
+java.util.Optional<$field.type> ##
+#end
+#if($field.recordComponent)
+    ${field.name}##
+#else
+    #set($name = $StringUtil.capitalizeWithJavaBeanConvention($StringUtil.sanitizeJavaIdentifier($helper.getPropertyName($field, $project))))
+    #if ($field.boolean && $field.primitive)
+    is${name}##
+    #else
+    get${name}##
+    #end
+#end
+() {
+#if ($field.primitive)
+return $field.name;
+#else
+return java.util.Optional.ofNullable($field.name);
+#end
+}
+```
