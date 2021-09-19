@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.SneakyThrows;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -79,17 +78,19 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    @SneakyThrows
     public static <T> T jsonToObject(@NonNull String json, @NonNull Class<T> type) {
         return jsonToObject(json, type, DEFAULT_JSON_MAPPER);
     }
 
 
     @NonNull
-    @SneakyThrows
     public static <T> List<T> jsonToList(@NonNull String json, @NonNull Class<T> type) {
-        return JsonUtils.DEFAULT_JSON_MAPPER.readValue(json, JsonUtils.DEFAULT_JSON_MAPPER.getTypeFactory()
-                .constructParametricType(ArrayList.class, type));
+        try {
+            return JsonUtils.DEFAULT_JSON_MAPPER.readValue(json, JsonUtils.DEFAULT_JSON_MAPPER.getTypeFactory()
+                    .constructParametricType(ArrayList.class, type));
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -103,13 +104,15 @@ public class JsonUtils {
      * @throws IOException throws when fail to convert
      */
     @NonNull
-    @SneakyThrows
     public static <T> T jsonToObject(@NonNull String json, @NonNull Class<T> type, @NonNull ObjectMapper objectMapper) {
         Assert.hasText(json, "Json content must not be blank");
         Assert.notNull(type, "Target type must not be null");
         Assert.notNull(objectMapper, "Object mapper must not null");
-
-        return objectMapper.readValue(json, type);
+        try {
+            return objectMapper.readValue(json, type);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -133,12 +136,14 @@ public class JsonUtils {
      * @throws JsonProcessingException throws when fail to convert
      */
     @NonNull
-    @SneakyThrows
     public static String objectToJson(@NonNull Object source, @NonNull ObjectMapper objectMapper) {
         Assert.notNull(source, "Source object must not be null");
         Assert.notNull(objectMapper, "Object mapper must not null");
-
-        return objectMapper.writeValueAsString(source);
+        try {
+            return objectMapper.writeValueAsString(source);
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

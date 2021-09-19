@@ -1,6 +1,7 @@
 package com.github.wajncn.ext.mybatis.config;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -15,8 +16,9 @@ import java.util.Optional;
  *
  * @author wajncn
  */
-@Slf4j
 public class ExtFactoryProcessor implements BeanFactoryPostProcessor {
+
+    private static final Logger log = LoggerFactory.getLogger(ExtFactoryProcessor.class);
 
     private static final String HANDLER_PACKAGE = "com.github.wajncn.ext.mybatis.handler";
 

@@ -5,12 +5,12 @@ import com.github.wajncn.ext.mybatis.core.BaseEnum;
 import com.github.wajncn.ext.mybatis.handler.ListTypeHandler;
 import com.github.wajncn.ext.mybatis.handler.MybatisEnumTypeHandler;
 import com.github.wajncn.ext.mybatis.handler.OptionalTypeHandler;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -27,11 +27,15 @@ import java.util.Optional;
  * @author wajncn
  * @author snowxuyu
  */
-@Slf4j
-@RequiredArgsConstructor
 public class ExtConfigurer implements InitializingBean, WebMvcConfigurer {
+    private static final Logger log = LoggerFactory.getLogger(ExtConfigurer.class);
 
     private final SqlSessionFactory sqlSessionFactory;
+
+    public ExtConfigurer(SqlSessionFactory sqlSessionFactory) {
+        this.sqlSessionFactory = sqlSessionFactory;
+    }
+
     /**
      * 是否已经处理过handler
      */

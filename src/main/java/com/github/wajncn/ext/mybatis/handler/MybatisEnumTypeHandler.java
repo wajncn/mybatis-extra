@@ -1,13 +1,10 @@
 package com.github.wajncn.ext.mybatis.handler;
 
 import com.github.wajncn.ext.mybatis.core.BaseEnum;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
@@ -22,46 +19,32 @@ import java.util.Objects;
  * @param <E>
  * @author wajncn
  */
-@Slf4j
 @MappedTypes(BaseEnum.class)
-public class MybatisEnumTypeHandler<E extends Enum<?>> extends BaseTypeHandler<Enum<?>> {
+public class MybatisEnumTypeHandler<E extends BaseEnum<?>> extends BaseTypeHandler<BaseEnum<?>> {
 
-    private final Class<E> type;
-
-    private final Method method;
+    /**
+     * 枚举构造方法
+     */
+    private final E[] enumConstants;
 
     public MybatisEnumTypeHandler(Class<E> type) {
         if (type == null) {
             throw new IllegalArgumentException("Type argument cannot be null");
         }
-        this.type = type;
-        if (BaseEnum.class.isAssignableFrom(type)) {
-            try {
-                this.method = type.getMethod("getValue");
-                this.method.setAccessible(true);
-            } catch (NoSuchMethodException e) {
-                throw new IllegalArgumentException(String.format("NoSuchMethod getValue() in Class: %s.", type.getName()));
-            }
-        } else {
-            log.warn("this.method is null");
-            method = null;
+        if (!BaseEnum.class.isAssignableFrom(type)) {
+            throw new IllegalArgumentException(String.format("NoSuchMethod getValue() in Class: %s.", type.getName()));
+        }
+        try {
+            enumConstants = type.getEnumConstants();
+        } catch (Exception e) {
+            throw new IllegalArgumentException(String.format("NoSuchMethod getValue() in Class: %s.", type.getName()));
         }
     }
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, Enum<?> parameter, JdbcType jdbcType)
+    public void setNonNullParameter(PreparedStatement ps, int i, BaseEnum<?> parameter, JdbcType jdbcType)
             throws SQLException {
-        try {
-            if (jdbcType == null) {
-                ps.setObject(i, this.method.invoke(parameter));
-            } else {
-                ps.setObject(i, this.method.invoke(parameter), jdbcType.TYPE_CODE);
-            }
-        } catch (IllegalAccessException e) {
-            log.error("unrecognized jdbcType, failed to set StringValue for type=" + parameter);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(String.format("Error: NoSuchMethod in %s.  Cause:", this.type.getName()));
-        }
+        ps.setObject(i, parameter.getValue());
     }
 
     @Override
@@ -76,7 +59,6 @@ public class MybatisEnumTypeHandler<E extends Enum<?>> extends BaseTypeHandler<E
     @Override
     public E getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         Object value = rs.getObject(columnIndex);
-
         if (null == value && rs.wasNull()) {
             return null;
         }
@@ -95,19 +77,10 @@ public class MybatisEnumTypeHandler<E extends Enum<?>> extends BaseTypeHandler<E
 
 
     private E valueOf(Object value) {
-        return Arrays.stream(this.type.getEnumConstants()).filter((e) -> equalsValue(value, getValue(e))).findAny().orElse(null);
-    }
-
-
-    private Object getValue(Object object) {
-        try {
-            return this.method.invoke(object);
-        } catch (ReflectiveOperationException e) {
-            throw new IllegalArgumentException(String.format(
-                    "Error: NoSuchMethod in %s.  Cause:",
-                    type.getName()
-            ));
-        }
+        return Arrays.stream(this.enumConstants)
+                .filter((baseEnum) -> this.equalsValue(value, baseEnum.getValue()))
+                .findFirst()
+                .orElse(null);
     }
 
 

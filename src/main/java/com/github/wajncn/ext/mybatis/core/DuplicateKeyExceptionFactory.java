@@ -1,9 +1,7 @@
 package com.github.wajncn.ext.mybatis.core;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -14,14 +12,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 此类主要解决索引异常的错误提示消息.  直接将索引的name和错误信息赋予DUPLICATE_MESSAGE_MAP即可
+ * 此类主要解决索引异常的错误提示消息.
+ * 直接将索引的name和错误信息赋予DUPLICATE_MESSAGE_MAP即可
  * 如果没有设置错误消息,则提示程序解析的默认消息.
  * 否则提示DUPLICATE_KEY_MESSAGE
  *
  * @author 王进
  **/
-@Slf4j
 public final class DuplicateKeyExceptionFactory {
+    private static final Logger log = LoggerFactory.getLogger(DuplicateKeyExceptionFactory.class);
 
     private static final Map<String, String> DUPLICATE_MESSAGE_MAP = new HashMap<>();
     private static final String DUPLICATE_KEY_MESSAGE = "请检查数据是否重复";
@@ -29,12 +28,56 @@ public final class DuplicateKeyExceptionFactory {
             "SQLIntegrityConstraintViolationException: (.*) for key '(.*)'");
 
 
-    @Getter
-    @Builder
-    @ToString
     public static class DkeMessage {
         private final String indexName;
         private final String errorMessage;
+
+        DkeMessage(final String indexName, final String errorMessage) {
+            this.indexName = indexName;
+            this.errorMessage = errorMessage;
+        }
+
+        public static DuplicateKeyExceptionFactory.DkeMessage.DkeMessageBuilder builder() {
+            return new DuplicateKeyExceptionFactory.DkeMessage.DkeMessageBuilder();
+        }
+
+        public String getIndexName() {
+            return this.indexName;
+        }
+
+        public String getErrorMessage() {
+            return this.errorMessage;
+        }
+
+        public String toString() {
+            return "DuplicateKeyExceptionFactory.DkeMessage(indexName=" + this.getIndexName() + ", errorMessage=" + this.getErrorMessage() + ")";
+        }
+
+        public static class DkeMessageBuilder {
+            private String indexName;
+            private String errorMessage;
+
+            DkeMessageBuilder() {
+            }
+
+            public DuplicateKeyExceptionFactory.DkeMessage.DkeMessageBuilder indexName(final String indexName) {
+                this.indexName = indexName;
+                return this;
+            }
+
+            public DuplicateKeyExceptionFactory.DkeMessage.DkeMessageBuilder errorMessage(final String errorMessage) {
+                this.errorMessage = errorMessage;
+                return this;
+            }
+
+            public DuplicateKeyExceptionFactory.DkeMessage build() {
+                return new DuplicateKeyExceptionFactory.DkeMessage(this.indexName, this.errorMessage);
+            }
+
+            public String toString() {
+                return "DuplicateKeyExceptionFactory.DkeMessage.DkeMessageBuilder(indexName=" + this.indexName + ", errorMessage=" + this.errorMessage + ")";
+            }
+        }
     }
 
     /**

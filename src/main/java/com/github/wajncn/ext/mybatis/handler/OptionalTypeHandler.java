@@ -66,7 +66,7 @@ public class OptionalTypeHandler extends BaseTypeHandler<Object> {
     @Override
     public void setNonNullParameter(PreparedStatement preparedStatement, int i, Object objects, JdbcType jdbcType)
             throws SQLException {
-        if(objects instanceof Optional){
+        if (objects instanceof Optional) {
             objects = ((Optional<?>) objects).orElse(null);
         }
         preparedStatement.setObject(i, objects);

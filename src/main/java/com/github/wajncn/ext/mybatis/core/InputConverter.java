@@ -1,6 +1,5 @@
 package com.github.wajncn.ext.mybatis.core;
 
-import lombok.SneakyThrows;
 import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.ParameterizedType;
@@ -23,21 +22,24 @@ public interface InputConverter<T, Entity> extends BaseConverter {
      *
      * @return Entity
      */
-    @SneakyThrows
     default Entity entityClass() {
-        Type[] genericInterfaces = this.getClass().getGenericInterfaces();
-        if (genericInterfaces.getClass().isAssignableFrom(ParameterizedType[].class)) {
-            for (Type genericInterface : genericInterfaces) {
-                ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
-                Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-                Type type = actualTypeArguments[1];
-                if (type instanceof Class) {
-                    Class<Entity> clazz = (Class<Entity>) type;
-                    return clazz.newInstance();
+        try {
+            Type[] genericInterfaces = this.getClass().getGenericInterfaces();
+            if (genericInterfaces.getClass().isAssignableFrom(ParameterizedType[].class)) {
+                for (Type genericInterface : genericInterfaces) {
+                    ParameterizedType parameterizedType = (ParameterizedType) genericInterface;
+                    Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+                    Type type = actualTypeArguments[1];
+                    if (type instanceof Class) {
+                        Class<Entity> clazz = (Class<Entity>) type;
+                        return clazz.newInstance();
+                    }
                 }
             }
+            throw new IllegalArgumentException("由于参数化类型<Entity>为null,因此无法获取实际类型");
+        } catch (Throwable var10) {
+            throw new RuntimeException(var10);
         }
-        throw new IllegalArgumentException("由于参数化类型<Entity>为null,因此无法获取实际类型");
     }
 
     /**
@@ -53,7 +55,6 @@ public interface InputConverter<T, Entity> extends BaseConverter {
 
     /**
      * 把entity转换成T
-     *
      */
     default T convertFrom(Entity entity) {
         if (entity == null) {
@@ -74,7 +75,6 @@ public interface InputConverter<T, Entity> extends BaseConverter {
 
     /**
      * 把entity转换成T
-     *
      */
     default List<T> convertFrom(List<Entity> entity) {
         if (CollectionUtils.isEmpty(entity)) {
