@@ -14,50 +14,6 @@ import java.util.Optional;
 /**
  * 针对get方法为Optional做处理
  * 建议属性不要写Optional<T> 只需要重写get方法即可.
- * <p>
- * <p>
- * import javax.persistence.Column;
- * import javax.persistence.GeneratedValue;
- * import javax.persistence.Id;
- * import javax.persistence.Table;
- * import java.util.Optional;
- *
- * @author wajncn
- * @Table(name = "userinfo")
- * public class Userinfo {
- * @Id
- * @Column(name = "id")
- * @GeneratedValue(generator = "JDBC")
- * private Integer id;
- * @Column(name = "`name`")
- * private String name;
- * <p>
- * public Userinfo() {
- * }
- * <p>
- * public Userinfo(String name) {
- * this.name = name;
- * }
- * <p>
- * public Optional<Integer> getId() {
- * return Optional.ofNullable(id);
- * }
- * <p>
- * public Userinfo setId(Integer id) {
- * this.id = id;
- * return this;
- * }
- * <p>
- * public Optional<String> getName() {
- * return Optional.ofNullable(name);
- * }
- * <p>
- * public Userinfo setName(String name) {
- * this.name = name;
- * return this;
- * }
- * }
- * </p>
  **/
 @MappedJdbcTypes(JdbcType.ARRAY)
 @MappedTypes(Optional.class)
