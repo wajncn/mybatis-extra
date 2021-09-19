@@ -1,8 +1,8 @@
-package tk.mybatis.plus.converter;
+package com.github.wajncn.ext.mybatis.converter;
 
+import com.github.wajncn.ext.mybatis.core.BaseEnum;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.converter.ConverterFactory;
-import tk.mybatis.plus.core.BaseEnum;
 
 import java.util.HashMap;
 import java.util.Map;

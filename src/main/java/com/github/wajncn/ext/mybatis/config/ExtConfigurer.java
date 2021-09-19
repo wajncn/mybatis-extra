@@ -1,5 +1,10 @@
-package tk.mybatis.plus.config;
+package com.github.wajncn.ext.mybatis.config;
 
+import com.github.wajncn.ext.mybatis.converter.BaseEnumConverterFactory;
+import com.github.wajncn.ext.mybatis.core.BaseEnum;
+import com.github.wajncn.ext.mybatis.handler.ListTypeHandler;
+import com.github.wajncn.ext.mybatis.handler.MybatisEnumTypeHandler;
+import com.github.wajncn.ext.mybatis.handler.OptionalTypeHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -9,11 +14,6 @@ import org.apache.ibatis.type.TypeHandlerRegistry;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import tk.mybatis.plus.converter.BaseEnumConverterFactory;
-import tk.mybatis.plus.core.BaseEnum;
-import tk.mybatis.plus.handler.ListTypeHandler;
-import tk.mybatis.plus.handler.MybatisEnumTypeHandler;
-import tk.mybatis.plus.handler.OptionalTypeHandler;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
@@ -29,7 +29,7 @@ import java.util.Optional;
  */
 @Slf4j
 @RequiredArgsConstructor
-public class TkPlusConfigurer implements InitializingBean, WebMvcConfigurer {
+public class ExtConfigurer implements InitializingBean, WebMvcConfigurer {
 
     private final SqlSessionFactory sqlSessionFactory;
     /**

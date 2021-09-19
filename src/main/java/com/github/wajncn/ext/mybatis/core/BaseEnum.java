@@ -1,4 +1,4 @@
-package tk.mybatis.plus.core;
+package com.github.wajncn.ext.mybatis.core;
 
 import java.io.Serializable;
 

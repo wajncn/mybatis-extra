@@ -1,10 +1,10 @@
-package tk.mybatis.plus.handler;
+package com.github.wajncn.ext.mybatis.handler;
 
+import com.github.wajncn.ext.mybatis.core.BaseEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
-import tk.mybatis.plus.core.BaseEnum;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -48,12 +48,10 @@ public class MybatisEnumTypeHandler<E extends Enum<?>> extends BaseTypeHandler<E
         }
     }
 
-    @SuppressWarnings("Duplicates")
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, Enum<?> parameter, JdbcType jdbcType)
             throws SQLException {
         try {
-//            this.method.setAccessible(true);
             if (jdbcType == null) {
                 ps.setObject(i, this.method.invoke(parameter));
             } else {

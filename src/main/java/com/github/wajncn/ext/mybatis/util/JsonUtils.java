@@ -1,10 +1,11 @@
-package tk.mybatis.plus.util;
+package com.github.wajncn.ext.mybatis.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.SneakyThrows;
 import org.springframework.lang.NonNull;
@@ -19,7 +20,7 @@ import java.util.Map;
 /**
  * Json utilities.
  *
- * @author: wajncn
+ * @author wajncn
  **/
 public class JsonUtils {
 
@@ -59,8 +60,8 @@ public class JsonUtils {
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         // 下面配置解决LocalDateTime序列化的问题
         mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        JavaTimeModule javaTimeModule = new JavaTimeModule();
-        mapper.registerModule(javaTimeModule);
+        mapper.registerModule(new JavaTimeModule());
+        mapper.registerModule(new Jdk8Module());
         // Set property naming strategy
         if (strategy != null) {
             mapper.setPropertyNamingStrategy(strategy);

@@ -1,6 +1,6 @@
-package tk.mybatis.plus.handler;
+package com.github.wajncn.ext.mybatis.handler;
 
-import tk.mybatis.plus.util.JsonUtils;
+import com.github.wajncn.ext.mybatis.util.JsonUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedJdbcTypes;
@@ -15,11 +15,10 @@ import java.util.List;
 
 /**
  * 处理List<T>
- * 数据库格式: [123,444]
- * 数据库格式: ["123","4444"]
+ * 数据库格式: [123,444]  List<Integer>
+ * 数据库格式: ["123","4444"] List<String>
  *
- * @description
- * @author: wajncn
+ * @author wajncn
  **/
 @MappedJdbcTypes(JdbcType.ARRAY)
 @MappedTypes(List.class)
@@ -40,7 +39,7 @@ public class ListTypeHandler extends BaseTypeHandler<List<Object>> {
         if (string == null) {
             return null;
         }
-        return new ArrayList<Object>(JsonUtils.jsonToList(string, Object.class));
+        return new ArrayList<>(JsonUtils.jsonToList(string, Object.class));
     }
 
     @Override

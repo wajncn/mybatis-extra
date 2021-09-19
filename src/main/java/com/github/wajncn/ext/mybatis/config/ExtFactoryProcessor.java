@@ -1,4 +1,4 @@
-package tk.mybatis.plus.config;
+package com.github.wajncn.ext.mybatis.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -16,9 +16,9 @@ import java.util.Optional;
  * @author wajncn
  */
 @Slf4j
-public class TkPlusFactoryProcessor implements BeanFactoryPostProcessor {
+public class ExtFactoryProcessor implements BeanFactoryPostProcessor {
 
-    private static final String HANDLER_PACKAGE = "tk.mybatis.plus.handler";
+    private static final String HANDLER_PACKAGE = "com.github.wajncn.ext.mybatis.handler";
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
@@ -36,7 +36,7 @@ public class TkPlusFactoryProcessor implements BeanFactoryPostProcessor {
             }
             if (myBatisProperties == null) {
                 //通过第二种方法注册Handler
-                log.warn("Start using TkPlusConfigurer Register Handler");
+                log.warn("Start using ExtConfigurer Register Handler");
                 return;
             }
             final String consumerTypeHandlersPackage = typeHandlersPackage == null ? HANDLER_PACKAGE
@@ -44,11 +44,11 @@ public class TkPlusFactoryProcessor implements BeanFactoryPostProcessor {
             // 这种方式注册Handler比较好. 可以做到不需要处理xml的type_handler啦
             myBatisProperties.getClass().getMethod("setTypeHandlersPackage", String.class)
                     .invoke(myBatisProperties, consumerTypeHandlersPackage);
-            TkPlusConfigurer.registerHandler = true;
-            log.warn("Register Handler [ListTypeHandler,MybatisEnumTypeHandler] Complete.");
+            ExtConfigurer.registerHandler = true;
+            log.info("Register Handler [ListTypeHandler,MybatisEnumTypeHandler,OptionalTypeHandler] Complete.");
         } catch (Exception ignored) {
             // 默认方式注册失败. 通过第二种方法注册Handler
-            log.warn("Register Handler error, Start using TkPlusConfigurer Register Handler");
+            log.warn("Register Handler error, Start using ExtConfigurer Register Handler");
         }
     }
 

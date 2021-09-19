@@ -1,4 +1,4 @@
-package tk.mybatis.plus.core;
+package com.github.wajncn.ext.mybatis.core;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapperImpl;
@@ -13,12 +13,11 @@ import java.util.stream.Stream;
  *
  * @author wajncn
  */
-@SuppressWarnings("unchecked")
 interface BaseConverter extends Serializable {
 
     /**
-     * @param source
-     * @param target
+     * @param source source
+     * @param target target
      */
     default void copyProperties(Object source, Object target) {
         BeanUtils.copyProperties(source, target, BaseConverterUtils.getNullPropertyNames(source));

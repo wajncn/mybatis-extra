@@ -14,7 +14,7 @@
     <name>tkmapper-ext</name>
 
     <description>
-        提供了通用枚举,DTO转换Entity的支持
+        提供了通用枚举,DTO转换Entity的支持,对实体对象get方法为Optional进行了支持
         通用枚举实现BaseEnum接口. DTO转换Entity实现InputConverter接口.
     </description>
 
@@ -65,15 +65,6 @@
             <version>2.1.5</version>
             <scope>provided</scope>
         </dependency>
-
-
-<!--        <dependency>-->
-<!--            <groupId>cn.hutool</groupId>-->
-<!--            <artifactId>hutool-core</artifactId>-->
-<!--            <version>5.7.4</version>-->
-<!--        </dependency>-->
-
-
         <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -82,18 +73,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>rdc-releases</id>
-            <url>http://172.18.58.137/mvn-release/</url>
-        </repository>
-        <snapshotRepository>
-            <id>rdc-snapshots</id>
-            <url>http://172.18.58.137/mvn-snapshot/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <build>
         <plugins>
             <plugin>

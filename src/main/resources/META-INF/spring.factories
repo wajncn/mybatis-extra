@@ -1,4 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    tk.mybatis.plus.config.TkPlusConfigurer,\
-  tk.mybatis.plus.config.TkPlusFactoryProcessor
+    com.github.wajncn.ext.mybatis.config.ExtConfigurer,\
+  com.github.wajncn.ext.mybatis.config.ExtFactoryProcessor

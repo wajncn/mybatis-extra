@@ -1,4 +1,4 @@
-package tk.mybatis.plus.core;
+package com.github.wajncn.ext.mybatis.core;
 
 import lombok.SneakyThrows;
 import org.springframework.util.CollectionUtils;
@@ -21,7 +21,7 @@ public interface InputConverter<T, Entity> extends BaseConverter {
     /**
      * 获取Entity实例
      *
-     * @return
+     * @return Entity
      */
     @SneakyThrows
     default Entity entityClass() {
@@ -54,8 +54,6 @@ public interface InputConverter<T, Entity> extends BaseConverter {
     /**
      * 把entity转换成T
      *
-     * @param entity
-     * @return
      */
     default T convertFrom(Entity entity) {
         if (entity == null) {
@@ -77,14 +75,12 @@ public interface InputConverter<T, Entity> extends BaseConverter {
     /**
      * 把entity转换成T
      *
-     * @param entity
-     * @return
      */
     default List<T> convertFrom(List<Entity> entity) {
         if (CollectionUtils.isEmpty(entity)) {
             return Collections.emptyList();
         }
-        List<T> list = new ArrayList<T>();
+        List<T> list = new ArrayList<>();
         entity.forEach(a -> {
             try {
                 InputConverter t = this.getClass().newInstance();

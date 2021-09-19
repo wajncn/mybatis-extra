@@ -1,4 +1,4 @@
-package tk.mybatis.plus.core;
+package com.github.wajncn.ext.mybatis.core;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +40,7 @@ public final class DuplicateKeyExceptionFactory {
     /**
      * 添加自定义的索引异常提示语
      *
-     * @param message
+     * @param message message
      */
     public static void addMessage(@NonNull DkeMessage message) {
         DUPLICATE_MESSAGE_MAP.put(message.getIndexName(), message.getErrorMessage());
@@ -49,8 +49,8 @@ public final class DuplicateKeyExceptionFactory {
     /**
      * 根据索引名称获取消息.
      *
-     * @param indexName
-     * @return
+     * @param indexName indexName
+     * @ message
      */
     public static String getMessage(@NonNull String indexName) {
         return DUPLICATE_MESSAGE_MAP.getOrDefault(indexName, DUPLICATE_KEY_MESSAGE);
@@ -60,7 +60,7 @@ public final class DuplicateKeyExceptionFactory {
      * 根据异常消息解析索引和错误消息
      *
      * @param message 异常的消息 e.getMessage
-     * @return
+     * @return message
      */
     public static String parseMessage(@Nullable String message) {
         if (message == null) {
