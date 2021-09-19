@@ -8,10 +8,10 @@
         <version>2.2.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>tk.mybatis</groupId>
-    <artifactId>mapper-plus-starter</artifactId>
+    <groupId>com.github.wajncn</groupId>
+    <artifactId>mybatis-ext</artifactId>
     <version>1.0.0.RELEASE</version>
-    <name>tkmapper-ext</name>
+    <name>mybatis-ext</name>
 
     <description>
         提供了通用枚举,DTO转换Entity的支持,对实体对象get方法为Optional进行了支持
@@ -24,6 +24,9 @@
             <name>wajncn</name>
             <email>wajncn@gmail.com</email>
             <url>https://javanet123.com</url>
+        </developer>
+        <developer>
+            <name>snowxuyu</name>
         </developer>
     </developers>
 
