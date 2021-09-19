@@ -1,4 +1,4 @@
-# mybatis-expand(基于mybatis拓展handler)
+# mybatis-extra(基于mybatis拓展handler)
 
 ## 针对mybatis增加了通用枚举处理器,通用list处理器,Optional处理器。
 
