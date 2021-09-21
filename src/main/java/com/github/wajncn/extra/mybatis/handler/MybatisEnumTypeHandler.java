@@ -4,14 +4,15 @@ import com.github.wajncn.extra.mybatis.core.BaseEnum;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.MappedTypes;
+import org.springframework.lang.Nullable;
 
-import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 通用枚举
@@ -23,9 +24,9 @@ import java.util.Objects;
 public class MybatisEnumTypeHandler<E extends BaseEnum<?>> extends BaseTypeHandler<BaseEnum<?>> {
 
     /**
-     * 枚举构造方法
+     * 将枚举的构造方法缓存起来. 在转换的时候直接取即可.
      */
-    private final E[] enumConstants;
+    private final Map<String, E> enumMap = new HashMap<>();
 
     public MybatisEnumTypeHandler(Class<E> type) {
         if (type == null) {
@@ -35,7 +36,13 @@ public class MybatisEnumTypeHandler<E extends BaseEnum<?>> extends BaseTypeHandl
             throw new IllegalArgumentException(String.format("NoSuchMethod getValue() in Class: %s.", type.getName()));
         }
         try {
-            enumConstants = type.getEnumConstants();
+            E[] enumConstants = type.getEnumConstants();
+            if (enumConstants == null) {
+                return;
+            }
+            for (E enumConstant : enumConstants) {
+                enumMap.put(enumConstant.getValue() + "", enumConstant);
+            }
         } catch (Exception e) {
             throw new IllegalArgumentException(String.format("NoSuchMethod getValue() in Class: %s.", type.getName()));
         }
@@ -49,55 +56,25 @@ public class MybatisEnumTypeHandler<E extends BaseEnum<?>> extends BaseTypeHandl
 
     @Override
     public E getNullableResult(ResultSet rs, String columnName) throws SQLException {
-        Object value = rs.getObject(columnName);
-        if (null == value && rs.wasNull()) {
-            return null;
-        }
-        return this.valueOf(value);
+        return this.valueOf(rs.getObject(columnName));
     }
 
     @Override
     public E getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-        Object value = rs.getObject(columnIndex);
-        if (null == value && rs.wasNull()) {
-            return null;
-        }
-        return this.valueOf(value);
+        return this.valueOf(rs.getObject(columnIndex));
     }
 
 
     @Override
     public E getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-        Object value = cs.getObject(columnIndex);
-        if (null == value && cs.wasNull()) {
-            return null;
-        }
-        return this.valueOf(value);
+        return this.valueOf(cs.getObject(columnIndex));
     }
 
 
-    private E valueOf(Object value) {
-        return Arrays.stream(this.enumConstants)
-                .filter((baseEnum) -> this.equalsValue(value, baseEnum.getValue()))
-                .findFirst()
+    private E valueOf(@Nullable Object value) {
+        return Optional.ofNullable(value)
+                .map(Object::toString)
+                .map(enumMap::get)
                 .orElse(null);
-    }
-
-
-    /**
-     * 值比较
-     *
-     * @param sourceValue 数据库字段值
-     * @param targetValue 当前枚举属性值
-     * @return 是否匹配
-     */
-    protected boolean equalsValue(Object sourceValue, Object targetValue) {
-        String sValue = String.valueOf(sourceValue).trim();
-        String tValue = String.valueOf(targetValue).trim();
-        if (sourceValue instanceof Number && targetValue instanceof Number
-                && new BigDecimal(sValue).compareTo(new BigDecimal(tValue)) == 0) {
-            return true;
-        }
-        return Objects.equals(sValue, tValue);
     }
 }
