@@ -19,7 +19,7 @@ public class BaseEnumConverterFactory implements ConverterFactory<String, BaseEn
     /**
      * 目标类型与对应转换器的Map
      */
-    private static final Map<Class, Converter> CONVERTER_MAP = new HashMap<>(64);
+    private static final Map<Class, Converter> CONVERTER_MAP = new HashMap<>(128);
 
     @Override
     public <T extends BaseEnum<?>> Converter<String, T> getConverter(Class<T> aClass) {

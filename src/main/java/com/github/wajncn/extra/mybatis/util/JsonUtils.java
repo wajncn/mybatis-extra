@@ -133,7 +133,6 @@ public class JsonUtils {
      * @param source       source object must not be null
      * @param objectMapper object mapper must not be null
      * @return json format of the source object
-     * @throws JsonProcessingException throws when fail to convert
      */
     @NonNull
     public static String objectToJson(@NonNull Object source, @NonNull ObjectMapper objectMapper) {
